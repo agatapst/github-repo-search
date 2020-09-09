@@ -15,7 +15,7 @@ export const HomePage: React.FC = () => {
     setError('');
     if (query) {
       try {
-        const result = await getRepos('/search/repositories', query);
+        const result = await getRepos(query);
         setRepos(result);
       } catch (error) {
         console.error(error);

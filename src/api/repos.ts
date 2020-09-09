@@ -1,3 +1,5 @@
+import useSWR, { responseInterface } from 'swr';
+
 import { client } from './client';
 
 export interface IRepository {
@@ -15,9 +17,19 @@ interface ReposResponse {
   items: IRepository[];
 }
 
-export const getRepos = async (url: string, query: string): Promise<IRepository[]> => {
-  const response = await client.get<ReposResponse>(url, {
+export const getRepos = async (query: string): Promise<IRepository[]> => {
+  const response = await client.get<ReposResponse>('/search/repositories', {
     params: { q: query },
   });
   return response.data.items;
 };
+
+const getRepoDetails = async (url: string): Promise<IRepository> => {
+  const response = await client.get(url);
+  return response.data;
+};
+
+export const useGetRepoDetails = (
+  owner: string,
+  name: string
+): responseInterface<IRepository, Error> => useSWR(`/repos/${owner}/${name}`, getRepoDetails);
