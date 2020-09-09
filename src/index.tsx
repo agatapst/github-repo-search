@@ -6,6 +6,8 @@ import WebFont from 'webfontloader';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { HomePage } from './pages/HomePage';
+import theme from './styles/theme';
 
 WebFont.load({
   google: {
@@ -13,17 +15,11 @@ WebFont.load({
   },
 });
 
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: ['Lato', 'Helvetica Neue', 'Arial', 'sans-serif'].join(','),
-  },
-});
-
 ReactDOM.render(
   <>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <App />
+      <HomePage />
     </ThemeProvider>
   </>,
   document.getElementById('root')
