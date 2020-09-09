@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Router, Route } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import history from 'config/history';
 import WebFont from 'webfontloader';
-
+import theme from 'styles/theme';
 import * as serviceWorker from 'serviceWorker';
 import { HomePage } from 'pages/HomePage';
-import theme from 'styles/theme';
+import { routes } from 'config';
+import { RepoDetailsPage } from 'pages/RepoDetailsPage';
 
 WebFont.load({
   google: {
@@ -18,7 +21,10 @@ ReactDOM.render(
   <>
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <HomePage />
+      <Router history={history}>
+        <Route exact path={routes.root()} component={HomePage} />
+        <Route path={routes.repo()} component={RepoDetailsPage} />
+      </Router>
     </ThemeProvider>
   </>,
   document.getElementById('root')
