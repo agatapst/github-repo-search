@@ -9,6 +9,7 @@
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
     "@types/webfontloader": "^1.6.32",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
@@ -22,7 +23,7 @@
     "test:noWatch": "yarn test --watchAll=false ",
     "eject": "react-scripts eject",
     "lint": "eslint --ignore-path .gitignore . --ext .js,.jsx,.ts,.tsx && stylelint './**/*.scss' --allow-empty-input",
-    "lint:fix": "eslint --fix './**/*.{js,jsx,ts,tsx}' && stylelint --fix  './**/*.{js,jsx,ts,tsx}' --allow-empty-input"
+    "lint:fix": "eslint --fix './**/*.{js,jsx,ts,tsx}' && stylelint --fix  './**/*.scss' --allow-empty-input"
   },
   "eslintConfig": {
     "extends": "react-app"

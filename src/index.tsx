@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import WebFont from 'webfontloader';
 
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import { HomePage } from './pages/HomePage';
-import theme from './styles/theme';
+import * as serviceWorker from 'serviceWorker';
+import { HomePage } from 'pages/HomePage';
+import theme from 'styles/theme';
 
 WebFont.load({
   google: {
