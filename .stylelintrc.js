@@ -1,4 +1,5 @@
 module.exports = {
+  plugins: ['stylelint-scss'],
   extends: [
     'stylelint-config-recommended',
     'stylelint-prettier',
@@ -7,5 +8,7 @@ module.exports = {
   ],
   rules: {
     'prettier/prettier': true,
+    'at-rule-no-unknown': null,
+    'scss/at-rule-no-unknown': true,
   },
 };

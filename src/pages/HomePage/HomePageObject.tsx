@@ -1,13 +1,12 @@
 import React from 'react';
 import {
-  render,
   getByText,
   getByPlaceholderText,
   fireEvent,
   findByTestId,
   findAllByTestId,
 } from '@testing-library/react';
-import { RepoElement } from 'testUtilities/helperElements/RepoElement';
+import { renderWithProviders, RepoElement } from 'testUtilities/helpers';
 
 import { HomePage } from '.';
 
@@ -15,7 +14,7 @@ export class HomePageObject {
   container: HTMLElement;
 
   static render(): HomePageObject {
-    const { container } = render(<HomePage />);
+    const { container } = renderWithProviders(<HomePage />);
     return new HomePageObject(container);
   }
 
