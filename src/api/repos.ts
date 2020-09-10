@@ -7,10 +7,12 @@ export interface IRepository {
   name: string;
   owner: {
     login: string;
+    avatar_url?: string;
   };
   description: string;
   language: string;
   stargazers_count: number;
+  created_at?: string;
 }
 
 interface ReposResponse {

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card, CardActions, CardContent, Button, Typography } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom';
 import { IRepository } from 'api/repos';
+import { routes } from 'config';
 
 interface RepoCardProps {
   repo: IRepository;
@@ -25,8 +27,14 @@ export const RepoCard: React.FC<RepoCardProps> = ({
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" variant="contained" color="primary">
-          See more
+        <Button
+          size="small"
+          variant="contained"
+          color="primary"
+          component={RouterLink}
+          to={routes.repo(owner.login, name)}
+        >
+          See More
         </Button>
       </CardActions>
     </Card>

@@ -8,7 +8,7 @@ export const ReposMock = {
       },
       description: 'Repo 1 created by Owner 1',
       language: 'JS',
-      stargazers_count: '10',
+      stargazers_count: 10,
     },
     {
       id: 2,
@@ -18,7 +18,7 @@ export const ReposMock = {
       },
       description: 'Repo 2 created by Owner 2',
       language: 'Ruby',
-      stargazers_count: '20',
+      stargazers_count: 20,
     },
   ],
 };
