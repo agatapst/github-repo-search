@@ -4,3 +4,11 @@
 .mainContainer {
   @include flex-center;
 }
+
+.reposList {
+  list-style-type: none;
+}
+
+.pagination {
+  @include flex-center;
+}

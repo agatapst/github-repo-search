@@ -32,10 +32,17 @@ export default createMuiTheme({
         fontSize: 28,
       },
     },
+    h3: {
+      fontSize: 16,
+      fontWeight: 500,
+      [breakpoints.up('sm')]: {
+        fontSize: 22,
+      },
+    },
     body1: {
       color: '#4A4C4F',
       fontSize: 14,
-      fontWeight: 300,
+      fontWeight: 400,
       [breakpoints.up('sm')]: {
         fontSize: 16,
       },
@@ -46,6 +53,13 @@ export default createMuiTheme({
       color: '#4A4C4F',
       [breakpoints.up('sm')]: {
         fontSize: 12,
+      },
+    },
+  },
+  overrides: {
+    MuiInputBase: {
+      input: {
+        fontSize: 20,
       },
     },
   },

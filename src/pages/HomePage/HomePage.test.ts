@@ -12,7 +12,7 @@ afterEach(jest.clearAllMocks);
 
 let page: HomePageObject;
 
-describe('Explorer Page', () => {
+describe('Home Page', () => {
   beforeEach(() => {
     page = HomePageObject.render();
   });
