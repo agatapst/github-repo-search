@@ -1,37 +1,39 @@
-import React, { useState, FormEvent } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import React, { useState, useEffect, FormEvent } from 'react';
+import { useLocation, useHistory, Link } from 'react-router-dom';
 import { Button, TextField, CircularProgress, Typography, Box, Container } from '@material-ui/core';
-import { Pagination, PaginationItem } from '@material-ui/lab';
+import { Pagination, PaginationItem, Alert } from '@material-ui/lab';
 import { RepoCard } from 'components/RepoCard';
-import { getRepos, IRepository } from 'api/repos';
+import { useGetRepos } from 'api/repos';
 import { ReactComponent as MainSvg } from 'assets/developer.svg';
 
 import styles from './HomePage.module.scss';
 
-export const HomePage: React.FC = () => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [query, setQuery] = useState<string>('');
-  const [repos, setRepos] = useState<IRepository[] | null>(null);
-  const [error, setError] = useState<string>('');
+const PER_PAGE = 10;
 
+export const HomePage: React.FC = () => {
+  const [query, setQuery] = useState<string>('');
+  const history = useHistory();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
+
   const page = parseInt(params.get('page') || '1');
+  const searchedQuery = params.get('q');
+
+  // set initial query value from params
+  useEffect(() => {
+    if (searchedQuery) {
+      setQuery(searchedQuery);
+    }
+  }, [searchedQuery, setQuery]);
+
+  const { data, error, isValidating } = useGetRepos(searchedQuery, page, PER_PAGE);
+  const repos = data?.items;
+  const totalRepos = data?.total_count || 0;
+  const totalPages = Math.ceil(totalRepos / PER_PAGE);
 
   const handleSearch = async (event: FormEvent) => {
     event.preventDefault();
-    setError('');
-    setLoading(true);
-    if (query) {
-      try {
-        const result = await getRepos(query);
-        setRepos(result);
-      } catch (error) {
-        console.error(error);
-        setError('Something went wrong');
-      }
-      setLoading(false);
-    }
+    history.push(`?q=${query}`);
   };
 
   return (
@@ -53,13 +55,21 @@ export const HomePage: React.FC = () => {
         </form>
       </Box>
 
-      {error}
-      {loading && (
+      {error && (
+        <Alert severity="error" className={styles.alert}>
+          {error}
+        </Alert>
+      )}
+      {isValidating && (
         <Box display="flex" justifyContent="center" mt={2}>
-          <CircularProgress />
+          <CircularProgress data-testid="loader" />
         </Box>
       )}
-      {repos && !repos.length && <Typography variant="body1">No repositories found</Typography>}
+      {repos && !repos.length && (
+        <Alert severity="warning" className={styles.alert}>
+          No repositories found
+        </Alert>
+      )}
       {repos && (
         <Container maxWidth="sm">
           <ul className={styles.reposList} data-testid="repos-list">
@@ -69,14 +79,20 @@ export const HomePage: React.FC = () => {
               </li>
             ))}
           </ul>
-          <Pagination
-            count={10}
-            page={page}
-            className={styles.pagination}
-            renderItem={(item) => (
-              <PaginationItem component={Link} to={`?page=${item.page}`} {...item} />
-            )}
-          />
+          {totalPages && (
+            <Pagination
+              count={totalPages}
+              page={page}
+              className={styles.pagination}
+              renderItem={(item) => (
+                <PaginationItem
+                  component={Link}
+                  to={`?q=${searchedQuery}&page=${item.page}`}
+                  {...item}
+                />
+              )}
+            />
+          )}
         </Container>
       )}
 

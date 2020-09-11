@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core';
 import { useGetRepoDetails } from 'api/repos';
 import { formatDate } from 'helpers/formatDate';
-import { Link as RouterLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StarIcon from '@material-ui/icons/Star';
 
@@ -22,9 +22,11 @@ export const RepoDetailsPage: React.FC = () => {
   const { owner, name } = useParams<{ owner: string; name: string }>();
   const { data, isValidating } = useGetRepoDetails(owner, name);
 
+  const history = useHistory();
+
   return (
     <>
-      <Button component={RouterLink} to="/">
+      <Button onClick={() => history.goBack()}>
         <ArrowBackIcon /> Go back home
       </Button>
 

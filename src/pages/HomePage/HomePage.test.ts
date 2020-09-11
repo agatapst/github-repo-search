@@ -22,24 +22,41 @@ describe('Home Page', () => {
     expect(page.searchInput).toBeInTheDocument();
   });
 
-  it('shows list of repositories for the selected user', async () => {
-    page.searchRepo('Repo 1');
-    const reposList = await page.getReposList();
-    expect(reposList.map((repoElement) => repoElement.getInfo())).toEqual([
-      {
-        name: 'Repo 1',
-        owner: 'Owner 1',
-        language: 'JS',
-        stars: 10,
-        description: 'Repo 1 created by Owner 1',
-      },
-      {
-        name: 'Repo 2',
-        owner: 'Owner 2',
-        language: 'Ruby',
-        stars: 20,
-        description: 'Repo 2 created by Owner 2',
-      },
-    ]);
+  describe('with searched repositories', () => {
+    beforeEach(async () => {
+      await page.searchRepo('Repo1');
+    });
+
+    it('shows list of repositories', () => {
+      expect(page.location.search).toEqual('?q=Repo1');
+      const reposList = page.reposList;
+      expect(reposList.map((repoElement) => repoElement.getInfo())).toEqual([
+        {
+          name: 'Repo1',
+          owner: 'Owner1',
+          language: 'main programming language: JS',
+          stars: 'stars count: 10',
+          description: 'Repo 1 created by Owner 1',
+        },
+        {
+          name: 'Repo2',
+          owner: 'Owner2',
+          language: 'main programming language: Ruby',
+          stars: 'stars count: 20',
+          description: 'Repo 2 created by Owner 2',
+        },
+      ]);
+    });
+
+    it('shows pagination', async () => {
+      expect(page.pagination).toBeInTheDocument();
+      await page.goToPage(3);
+      expect(page.location.search).toEqual('?q=Repo1&page=3');
+    });
+
+    it('redirects to repo details page after clicking See more', () => {
+      page.reposList[0].clickSeeMore();
+      expect(page.location.pathname).toEqual('/repos/Owner1/Repo1');
+    });
   });
 });

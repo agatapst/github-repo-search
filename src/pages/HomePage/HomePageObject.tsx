@@ -3,23 +3,29 @@ import {
   getByText,
   getByPlaceholderText,
   fireEvent,
-  findByTestId,
-  findAllByTestId,
+  getByTestId,
+  getAllByTestId,
+  getByLabelText,
+  waitForElementToBeRemoved,
+  queryByTestId,
 } from '@testing-library/react';
+import { MemoryHistory, Location } from 'history';
 import { renderWithProviders, RepoElement } from 'testUtilities/helpers';
 
 import { HomePage } from '.';
 
 export class HomePageObject {
   container: HTMLElement;
+  history: MemoryHistory;
 
   static render(): HomePageObject {
-    const { container } = renderWithProviders(<HomePage />);
-    return new HomePageObject(container);
+    const { container, history } = renderWithProviders(<HomePage />);
+    return new HomePageObject(container, history);
   }
 
-  constructor(container: HTMLElement) {
+  constructor(container: HTMLElement, history: MemoryHistory) {
     this.container = container;
+    this.history = history;
   }
 
   get searchButton(): HTMLElement {
@@ -30,14 +36,35 @@ export class HomePageObject {
     return getByPlaceholderText(this.container, 'Enter repository name');
   }
 
-  searchRepo(repoName: string): void {
-    fireEvent.change(this.searchInput, { target: { value: repoName } });
-    fireEvent.click(this.searchButton);
+  get pagination(): HTMLElement {
+    return getByLabelText(this.container, /pagination/);
   }
 
-  async getReposList(): Promise<RepoElement[]> {
-    const list = await findByTestId(this.container, 'repos-list');
-    const repos = await findAllByTestId(list, 'repo');
+  get location(): Location {
+    return this.history.location;
+  }
+
+  get reposList(): RepoElement[] {
+    const list = getByTestId(this.container, 'repos-list');
+    const repos = getAllByTestId(list, 'repo');
     return [...repos].map((repo) => new RepoElement(repo));
+  }
+
+  async searchRepo(repoName: string): Promise<void> {
+    fireEvent.change(this.searchInput, { target: { value: repoName } });
+    fireEvent.click(this.searchButton);
+    await this.waitUntilLoaded();
+  }
+
+  async goToPage(page: number): Promise<void> {
+    const button = getByLabelText(this.pagination, `Go to page ${page}`);
+    fireEvent.click(button);
+    await this.waitUntilLoaded();
+  }
+
+  private async waitUntilLoaded(): Promise<void> {
+    if (queryByTestId(this.container, 'loader')) {
+      await waitForElementToBeRemoved(() => queryByTestId(this.container, 'loader'));
+    }
   }
 }

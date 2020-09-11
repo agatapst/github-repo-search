@@ -1,11 +1,11 @@
-import { getByTestId } from '@testing-library/react';
+import { getByTestId, getByText, fireEvent } from '@testing-library/react';
 
 interface RepoInfo {
   name: string | null;
   owner: string | null;
   language: string | null;
   description: string | null;
-  stars: number;
+  stars: string | null;
 }
 
 export class RepoElement {
@@ -27,12 +27,20 @@ export class RepoElement {
     return getByTestId(this.element, 'description').textContent;
   }
 
-  get stars(): number {
-    return parseInt(getByTestId(this.element, 'stars').textContent || '0');
+  get stars(): string | null {
+    return getByTestId(this.element, 'stars').textContent;
   }
 
   get language(): string | null {
     return getByTestId(this.element, 'language').textContent;
+  }
+
+  get seeMoreButton(): HTMLElement {
+    return getByText(this.element, /see more/i);
+  }
+
+  clickSeeMore(): void {
+    fireEvent.click(this.seeMoreButton);
   }
 
   getInfo(): RepoInfo {

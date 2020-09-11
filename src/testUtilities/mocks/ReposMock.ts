@@ -1,10 +1,13 @@
-export const ReposMock = {
+import { ReposResponse } from 'api/repos';
+
+export const ReposMock: ReposResponse = {
+  total_count: 23,
   items: [
     {
       id: 1,
-      name: 'Repo 1',
+      name: 'Repo1',
       owner: {
-        login: 'Owner 1',
+        login: 'Owner1',
       },
       description: 'Repo 1 created by Owner 1',
       language: 'JS',
@@ -12,9 +15,9 @@ export const ReposMock = {
     },
     {
       id: 2,
-      name: 'Repo 2',
+      name: 'Repo2',
       owner: {
-        login: 'Owner 2',
+        login: 'Owner2',
       },
       description: 'Repo 2 created by Owner 2',
       language: 'Ruby',

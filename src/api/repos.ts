@@ -15,16 +15,30 @@ export interface IRepository {
   created_at?: string;
 }
 
-interface ReposResponse {
+export interface ReposResponse {
   items: IRepository[];
+  total_count: number;
 }
 
-export const getRepos = async (query: string): Promise<IRepository[]> => {
-  const response = await client.get<ReposResponse>('/search/repositories', {
-    params: { q: query },
+export const getRepos = async (
+  url: string,
+  q: string,
+  page: number,
+  per_page: number
+): Promise<ReposResponse> => {
+  const response = await client.get<ReposResponse>(url, {
+    params: { q, page, per_page },
   });
-  return response.data.items;
+  return response.data;
 };
+
+export const useGetRepos = (
+  query: string | null,
+  page: number,
+  perPage: number
+): responseInterface<ReposResponse, Error> =>
+  // if there is no query pass null as SWR key to prevent calling API
+  useSWR(query && ['/search/repositories', query, page, perPage], getRepos);
 
 const getRepoDetails = async (url: string): Promise<IRepository> => {
   const response = await client.get(url);
