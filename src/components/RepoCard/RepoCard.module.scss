@@ -2,19 +2,21 @@
 @import '../../styles/mixins';
 
 .repoCardContainer {
-  margin: 24px;
+  margin: $spacing * 6;
 }
 
 .repoNameText {
-  margin-right: 4px;
+  margin-right: $spacing;
 }
 
 .loginOwnerText {
-  padding-left: 4px;
   font-weight: 700;
 }
 
 .cardActionButton {
-  @include flex;
-  justify-content: center;
+  @include flex-center;
+}
+
+.starsBox {
+  @include flex-row;
 }

@@ -1,6 +1,6 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const { breakpoints } = createMuiTheme();
+const { breakpoints, palette } = createMuiTheme();
 
 export default createMuiTheme({
   palette: {
@@ -28,6 +28,7 @@ export default createMuiTheme({
     h2: {
       fontSize: 22,
       fontWeight: 500,
+      color: palette.primary.main,
       [breakpoints.up('sm')]: {
         fontSize: 28,
       },
@@ -53,13 +54,6 @@ export default createMuiTheme({
       color: '#4A4C4F',
       [breakpoints.up('sm')]: {
         fontSize: 12,
-      },
-    },
-  },
-  overrides: {
-    MuiInputBase: {
-      input: {
-        fontSize: 20,
       },
     },
   },

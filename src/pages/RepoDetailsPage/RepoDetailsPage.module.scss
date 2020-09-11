@@ -1,3 +1,38 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.repoDetailsMain {
+  @include flex-center;
+  @include flex-column;
+
+  @mixin breakpoint-up($xxsmall) {
+    @include flex-row;
+  }
+}
+
 .repoDetailsCard {
-  margin: 25px;
+  margin: $spacing * 6;
+}
+
+.repoDetailsContent {
+  @include flex-center;
+  @include flex-column;
+}
+
+.starsBox {
+  @include flex-center;
+  @include flex-row;
+  margin-top: $spacing * 2;
+}
+
+.userBox {
+  @include flex-center;
+  @include flex-column;
+  margin-bottom: $spacing * 3;
+}
+
+.mainImage {
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
 }

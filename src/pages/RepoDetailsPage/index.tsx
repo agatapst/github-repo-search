@@ -15,6 +15,7 @@ import { formatDate } from 'helpers/formatDate';
 import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StarIcon from '@material-ui/icons/Star';
+import { ReactComponent as WomanDeveloperSvg } from 'assets/woman.svg';
 
 import styles from './RepoDetailsPage.module.scss';
 
@@ -29,42 +30,45 @@ export const RepoDetailsPage: React.FC = () => {
       <Button onClick={() => history.goBack()}>
         <ArrowBackIcon /> Go back home
       </Button>
-
-      <Container maxWidth="sm">
-        <Card className={styles.repoDetailsCard}>
-          <CardContent>
-            {isValidating && <CircularProgress data-testid="loader" />}
-            <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column">
-              <Box display="flex" justifyContent="center" alignItems="center" flexDirection="row">
+      <Box className={styles.repoDetailsMain}>
+        <Container maxWidth="sm">
+          <Card className={styles.repoDetailsCard}>
+            <CardContent>
+              {isValidating && <CircularProgress data-testid="loader" />}
+              <Box className={styles.repoDetailsContent}>
                 <Typography variant="h1" data-testid="name">
                   {data?.name}
                 </Typography>
-                <Typography variant="body1" data-testid="stars">
-                  {data?.stargazers_count}
-                </Typography>
-                <StarIcon />
-              </Box>
-              <Box display="flex" flexDirection="column" alignItems="center">
-                <Avatar alt="User avatar" src={data?.owner?.avatar_url} />
-                <Typography variant="h3" data-testid="owner">
-                  {data?.owner?.login}
-                </Typography>
-              </Box>
-              <Box>
-                <Typography variant="body1" data-testid="description">
-                  {data?.description}
-                </Typography>
-              </Box>
 
-              <Box>
-                <Typography variant="body1" data-testid="createdAt">
-                  created at {formatDate(data?.created_at)}
-                </Typography>
+                <Box className={styles.userBox}>
+                  <Avatar alt="User avatar" src={data?.owner?.avatar_url} />
+                  <Typography variant="h3" data-testid="owner">
+                    {data?.owner?.login}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body1" data-testid="description">
+                    {data?.description}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body1" data-testid="createdAt">
+                    created at {formatDate(data?.created_at)}
+                  </Typography>
+                </Box>
+                <Box className={styles.starsBox}>
+                  <StarIcon />
+                  <Typography variant="body1" data-testid="stars">
+                    {data?.stargazers_count}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-          </CardContent>
-        </Card>
-      </Container>
+            </CardContent>
+          </Card>
+        </Container>
+
+        <WomanDeveloperSvg className={styles.mainImage} />
+      </Box>
     </>
   );
 };

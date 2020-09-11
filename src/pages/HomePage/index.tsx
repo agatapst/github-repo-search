@@ -33,10 +33,11 @@ export const HomePage: React.FC = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" p={10}>
-      <Typography variant="h1">Search Github Repository</Typography>
-
-      <Box display="flex" flexDirection="column" mt={10}>
+    <Box className={styles.homePageMain}>
+      <Typography variant="h1" className={styles.header}>
+        Search Github Repository
+      </Typography>
+      <Box className={styles.searchBox}>
         <form onSubmit={handleSearch}>
           <TextField
             placeholder="Enter repository name"
@@ -44,10 +45,13 @@ export const HomePage: React.FC = () => {
             onChange={(e) => setQuery(e.target.value)}
             required
             fullWidth
+            className={styles.searchField}
           />
-          <Button type="submit" variant="outlined" color="secondary" fullWidth>
-            Search
-          </Button>
+          <Box mt={1}>
+            <Button type="submit" variant="outlined" color="secondary" fullWidth>
+              Search
+            </Button>
+          </Box>
         </form>
       </Box>
 
@@ -57,7 +61,7 @@ export const HomePage: React.FC = () => {
         </Alert>
       )}
       {isValidating && (
-        <Box display="flex" justifyContent="center" mt={2}>
+        <Box className={styles.loader}>
           <CircularProgress data-testid="loader" />
         </Box>
       )}
@@ -72,7 +76,7 @@ export const HomePage: React.FC = () => {
       )}
 
       <Box>
-        <MainSvg />
+        <MainSvg className={styles.mainImage} />
       </Box>
     </Box>
   );

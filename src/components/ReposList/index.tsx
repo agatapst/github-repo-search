@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Container } from '@material-ui/core';
+import { Container, Typography } from '@material-ui/core';
 import { Pagination, PaginationItem, Alert } from '@material-ui/lab';
 import { RepoCard } from 'components/RepoCard';
 import { IRepository } from 'api/repos';
@@ -33,10 +33,10 @@ export const ReposList: React.FC<ReposListProps> = ({
   }
 
   return (
-    <Container maxWidth="sm">
-      <h3>
+    <Container maxWidth="lg">
+      <Typography variant="h3">
         Results for query: {query} ({totalCount})
-      </h3>
+      </Typography>
       <ul className={styles.list} data-testid="repos-list">
         {repos.map((repo) => (
           <li key={repo.id} data-testid="repo">

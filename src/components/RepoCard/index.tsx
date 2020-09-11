@@ -17,26 +17,21 @@ export const RepoCard: React.FC<RepoCardProps> = ({
   return (
     <Card variant="outlined" className={styles.repoCardContainer}>
       <CardContent>
-        <Box display="flex" flexDirection="row" alignItems="flex-end">
-          <Typography variant="h1" data-testid="name" className={styles.repoNameText}>
-            {name}
-          </Typography>
-          <Typography variant="body1">created by</Typography>
-          <Typography variant="body1" className={styles.loginOwnerText} data-testid="owner">
-            {owner.login}
-          </Typography>
-        </Box>
-
-        <Typography variant="body1" component="p" data-testid="description">
+        <Typography variant="h2" data-testid="name" className={styles.repoNameText}>
+          {name}
+        </Typography>
+        <Typography variant="h3" component="p" data-testid="description">
           {description}
         </Typography>
-        <Box display="flex" flexDirection="row" alignItems="center">
+        <Typography variant="body1" className={styles.loginOwnerText} data-testid="owner">
+          created by {owner.login}
+        </Typography>
+        <Box className={styles.starsBox}>
           <Typography variant="body1" data-testid="stars">
             stars count: {stargazers_count}
           </Typography>
           <StarIcon />
         </Box>
-
         <Typography data-testid="language">main programming language: {language}</Typography>
       </CardContent>
       <CardActions className={styles.cardActionButton}>

@@ -33,14 +33,14 @@ describe('Home Page', () => {
       expect(reposList.map((repoElement) => repoElement.getInfo())).toEqual([
         {
           name: 'Repo1',
-          owner: 'Owner1',
+          owner: 'created by Owner1',
           language: 'main programming language: JS',
           stars: 'stars count: 10',
           description: 'Repo 1 created by Owner 1',
         },
         {
           name: 'Repo2',
-          owner: 'Owner2',
+          owner: 'created by Owner2',
           language: 'main programming language: Ruby',
           stars: 'stars count: 20',
           description: 'Repo 2 created by Owner 2',

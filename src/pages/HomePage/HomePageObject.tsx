@@ -62,7 +62,7 @@ export class HomePageObject {
     await this.waitUntilLoaded();
   }
 
-  private async waitUntilLoaded(): Promise<void> {
+  async waitUntilLoaded(): Promise<void> {
     if (queryByTestId(this.container, 'loader')) {
       await waitForElementToBeRemoved(() => queryByTestId(this.container, 'loader'));
     }

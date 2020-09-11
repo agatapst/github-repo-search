@@ -1,20 +1,31 @@
 import React from 'react';
-import { waitForElementToBeRemoved, getByTestId, queryByTestId } from '@testing-library/react';
+import {
+  fireEvent,
+  waitForElementToBeRemoved,
+  getByTestId,
+  queryByTestId,
+  getByText,
+} from '@testing-library/react';
 import { renderWithProviders } from 'testUtilities/helpers';
+import { MemoryHistory } from 'history';
 
 import { RepoDetailsPage } from '.';
 
 export class RepoDetailsPageObject {
   container: HTMLElement;
+  history: MemoryHistory;
 
-  static async render(owner: string, name: string): Promise<RepoDetailsPageObject> {
-    const { container } = renderWithProviders(<RepoDetailsPage />, `/repos/${owner}/${name}`);
-    await waitForElementToBeRemoved(() => queryByTestId(container, 'loader'));
-    return new RepoDetailsPageObject(container);
+  static render(owner: string, name: string): RepoDetailsPageObject {
+    const { container, history } = renderWithProviders(
+      <RepoDetailsPage />,
+      `/repos/${owner}/${name}`
+    );
+    return new RepoDetailsPageObject(container, history);
   }
 
-  constructor(container: HTMLElement) {
+  constructor(container: HTMLElement, history: MemoryHistory) {
     this.container = container;
+    this.history = history;
   }
 
   get name(): string | null {
@@ -35,5 +46,16 @@ export class RepoDetailsPageObject {
 
   get createdAt(): string | null {
     return getByTestId(this.container, 'createdAt').textContent;
+  }
+
+  goBackHome(): void {
+    const button = getByText(this.container, /go back home/i);
+    fireEvent.click(button);
+  }
+
+  async waitUntilLoaded(): Promise<void> {
+    if (queryByTestId(this.container, 'loader')) {
+      await waitForElementToBeRemoved(() => queryByTestId(this.container, 'loader'));
+    }
   }
 }

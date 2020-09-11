@@ -1,10 +1,37 @@
 @import '../../styles/variables';
 @import '../../styles/mixins';
 
-.mainContainer {
+.homePageMain {
+  @include flex-column;
   @include flex-center;
+  padding-top: 20px;
+}
+
+.header {
+  text-align: center;
+}
+
+.searchBox {
+  @include flex-column;
+  width: 80%;
+  max-width: 400px;
+  margin: $spacing * 10;
+}
+
+.searchField {
+  margin-bottom: $spacing * 2;
 }
 
 .alert {
   margin: 20px 0;
+}
+
+.loader {
+  @include flex-center;
+}
+
+.mainImage {
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
 }
