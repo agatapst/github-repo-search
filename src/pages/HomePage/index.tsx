@@ -1,14 +1,13 @@
 import React, { useState, useEffect, FormEvent } from 'react';
-import { useLocation, useHistory, Link } from 'react-router-dom';
-import { Button, TextField, CircularProgress, Typography, Box, Container } from '@material-ui/core';
-import { Pagination, PaginationItem, Alert } from '@material-ui/lab';
-import { RepoCard } from 'components/RepoCard';
+import { useLocation, useHistory } from 'react-router-dom';
+import { Button, TextField, CircularProgress, Typography, Box } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import { appConfig } from 'config/appConfig';
 import { useGetRepos } from 'api/repos';
 import { ReactComponent as MainSvg } from 'assets/developer.svg';
+import { ReposList } from 'components/ReposList';
 
 import styles from './HomePage.module.scss';
-
-const PER_PAGE = 10;
 
 export const HomePage: React.FC = () => {
   const [query, setQuery] = useState<string>('');
@@ -26,10 +25,7 @@ export const HomePage: React.FC = () => {
     }
   }, [searchedQuery, setQuery]);
 
-  const { data, error, isValidating } = useGetRepos(searchedQuery, page, PER_PAGE);
-  const repos = data?.items;
-  const totalRepos = data?.total_count || 0;
-  const totalPages = Math.ceil(totalRepos / PER_PAGE);
+  const { data, error, isValidating } = useGetRepos(searchedQuery, page, appConfig.REPOS_PER_PAGE);
 
   const handleSearch = async (event: FormEvent) => {
     event.preventDefault();
@@ -65,35 +61,14 @@ export const HomePage: React.FC = () => {
           <CircularProgress data-testid="loader" />
         </Box>
       )}
-      {repos && !repos.length && (
-        <Alert severity="warning" className={styles.alert}>
-          No repositories found
-        </Alert>
-      )}
-      {repos && (
-        <Container maxWidth="sm">
-          <ul className={styles.reposList} data-testid="repos-list">
-            {repos.map((repo) => (
-              <li key={repo.id} data-testid="repo">
-                <RepoCard repo={repo} />
-              </li>
-            ))}
-          </ul>
-          {totalPages && (
-            <Pagination
-              count={totalPages}
-              page={page}
-              className={styles.pagination}
-              renderItem={(item) => (
-                <PaginationItem
-                  component={Link}
-                  to={`?q=${searchedQuery}&page=${item.page}`}
-                  {...item}
-                />
-              )}
-            />
-          )}
-        </Container>
+      {data && (
+        <ReposList
+          repos={data.items}
+          totalCount={data.total_count}
+          query={searchedQuery}
+          page={page}
+          perPage={appConfig.REPOS_PER_PAGE}
+        />
       )}
 
       <Box>

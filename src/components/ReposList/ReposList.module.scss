@@ -1,7 +1,10 @@
-@import '../../styles/variables';
 @import '../../styles/mixins';
 
-.mainContainer {
+.list {
+  list-style-type: none;
+}
+
+.pagination {
   @include flex-center;
 }
 
